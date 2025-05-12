@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include "crud/user.cpp"
+#include "crud/product.cpp"
+#include "crud/order.cpp"
 
 using namespace std;
 
@@ -172,7 +174,7 @@ void CrudUser(){
                 cin >> user.password;
                 cout << "Role: ";
                 cin >> user.role;
-                if(!addUser(user, "data/users.json")){
+                if(!addUser(user)){
                     cout << "User gagal ditambahkan!" << endl;
                 }
             }catch(const exception& e){
@@ -180,14 +182,14 @@ void CrudUser(){
             }
 
         }else if(pilihan == 2){
-            vector<User> users = getAllUsers("data/users.json");
+            vector<User> users = getAllUsers();
             
             for (const auto &user : users) {
                 cout << "ID: " << user.id << ", Username: " << user.username << ", Password: " << user.password << ", Role: " << user.role << endl;
             }
         }else if(pilihan == 3){
             //update user
-        }else if(pilihan == 3){
+        }else if(pilihan == 4){
             //delete user
         }else if(pilihan == 0){
             cout << "Logout" << endl;
@@ -221,6 +223,33 @@ void CrudProduct(){
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
         }
+
+        if(pilihan == 1){
+            try{
+                Product product;
+                cout << "ID: ";
+                cin >> product.id;
+                cout << "Name: ";
+                cin >> product.name;
+                cout << "Brand: ";
+                cin >> product.brand;
+                cout << "Stock: ";
+                cin >> product.stock;
+                cout << "Price: ";
+                cin >> product.price;
+                if(!addProduct(product)){
+                    cout << "Product gagal ditambahkan!" << endl;
+                }
+            }catch(const exception& e){
+                cerr << "Error: " << e.what() << endl;
+            }
+        }else if(pilihan == 2){
+            vector<Product> products = getAllProducts();
+            
+            for (const auto &product : products ) {
+                cout << "ID: " << product.id << ", Name: " << product.name << ", Brand: " << product.brand << ", Stock: " << product.stock << ", Price: " << product.price << endl;
+            }
+        }
     }
 }
 
@@ -247,6 +276,19 @@ void CrudOrder(){
             cin.ignore(); // Buang karakter sisa
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
+        }
+
+        if(pilihan == 1){
+
+        }else if(pilihan == 2){
+            vector<Order> orders = getAllOrders();
+            
+            for (const auto &order : orders ) {
+                cout << "ID: " << order.id << ", User ID: " << order.user_id << ", Total Price: " << order.total_price << ", Status: " << order.status << endl;
+                for (const auto &orderItem : order.products) {
+                    cout << "   - Product ID: " << orderItem.product_id << ", Name: " << orderItem.name << ", Quantity: " << orderItem.quantity << ", Price: " << orderItem.price << endl;
+                }
+            }
         }
     }
 }

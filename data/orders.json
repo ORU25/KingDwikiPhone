@@ -4,19 +4,39 @@
     "user_id": 1,
     "products": [
       {
-        "id": 1,
+        "product_id": 1,
         "name": "iPhone 15 Pro Max",
-        "amount": 7,
+        "quantity": 7,
         "price": 23999000
       },
       {
-        "id": 2,
+        "product_id": 2,
         "name": "Galaxy S24 Ultra",
-        "amount": 10,
+        "quantity": 10,
         "price": 20999000
       }
     ],
     "total_price": 44998000,
     "status": "pending"
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "products": [
+      {
+        "product_id": 3,
+        "name": "Xiaomi 14 Ultra",
+        "quantity": 2,
+        "price": 15999000
+      },
+      {
+        "product_id": 4,
+        "name": "Realme GT 5 Pro",
+        "quantity": 1,
+        "price": 8999000
+      }
+    ],
+    "total_price": 40997000,
+    "status": "completed"
   }
 ]

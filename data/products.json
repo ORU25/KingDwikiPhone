@@ -1,72 +1,72 @@
 [
-  {
-    "id": 1,
-    "name": "iPhone 15 Pro Max",
-    "brand": "Apple",
-    "stock": 7,
-    "price": 23999000
-  },
-  {
-    "id": 2,
-    "name": "Galaxy S24 Ultra",
-    "brand": "Samsung",
-    "stock": 10,
-    "price": 20999000
-  },
-  {
-    "id": 3,
-    "name": "Xiaomi 14 Ultra",
-    "brand": "Xiaomi",
-    "stock": 15,
-    "price": 15999000
-  },
-  {
-    "id": 4,
-    "name": "Realme GT 5 Pro",
-    "brand": "Realme",
-    "stock": 12,
-    "price": 8999000
-  },
-  {
-    "id": 5,
-    "name": "OnePlus 12",
-    "brand": "OnePlus",
-    "stock": 9,
-    "price": 13999000
-  },
-  {
-    "id": 6,
-    "name": "ASUS ROG Phone 8 Pro",
-    "brand": "ASUS",
-    "stock": 5,
-    "price": 18999000
-  },
-  {
-    "id": 7,
-    "name": "vivo X100 Pro",
-    "brand": "Vivo",
-    "stock": 8,
-    "price": 14999000
-  },
-  {
-    "id": 8,
-    "name": "OPPO Find X7 Ultra",
-    "brand": "OPPO",
-    "stock": 11,
-    "price": 16999000
-  },
-  {
-    "id": 9,
-    "name": "Infinix Zero 30 5G",
-    "brand": "Infinix",
-    "stock": 20,
-    "price": 3999000
-  },
-  {
-    "id": 10,
-    "name": "Tecno Phantom V Flip",
-    "brand": "Tecno",
-    "stock": 6,
-    "price": 8999000
-  }
+    {
+        "brand": "Apple",
+        "id": 1,
+        "name": "iPhone 15 Pro Max",
+        "price": 23999000,
+        "stock": 7
+    },
+    {
+        "brand": "Samsung",
+        "id": 2,
+        "name": "Galaxy S24 Ultra",
+        "price": 20999000,
+        "stock": 10
+    },
+    {
+        "brand": "Xiaomi",
+        "id": 3,
+        "name": "Xiaomi 14 Ultra",
+        "price": 15999000,
+        "stock": 15
+    },
+    {
+        "brand": "Realme",
+        "id": 4,
+        "name": "Realme GT 5 Pro",
+        "price": 8999000,
+        "stock": 12
+    },
+    {
+        "brand": "OnePlus",
+        "id": 5,
+        "name": "OnePlus 12",
+        "price": 13999000,
+        "stock": 9
+    },
+    {
+        "brand": "ASUS",
+        "id": 6,
+        "name": "ASUS ROG Phone 8 Pro",
+        "price": 18999000,
+        "stock": 5
+    },
+    {
+        "brand": "Vivo",
+        "id": 7,
+        "name": "vivo X100 Pro",
+        "price": 14999000,
+        "stock": 8
+    },
+    {
+        "brand": "OPPO",
+        "id": 8,
+        "name": "OPPO Find X7 Ultra",
+        "price": 16999000,
+        "stock": 11
+    },
+    {
+        "brand": "Infinix",
+        "id": 9,
+        "name": "Infinix Zero 30 5G",
+        "price": 3999000,
+        "stock": 20
+    },
+    {
+        "brand": "Tecno",
+        "id": 10,
+        "name": "Tecno Phantom V Flip",
+        "price": 8999000,
+        "stock": 6
+    }
 ]
