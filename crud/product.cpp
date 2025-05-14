@@ -19,6 +19,16 @@ struct Product {
     int price;
 };
 
+int generateNewProductId(const vector<Product>& products) {
+    int maxId = 0;
+    for (const auto& product : products) {
+        if (product.id > maxId) {
+            maxId = product.id;
+        }
+    }
+    return maxId + 1;
+}
+
 vector<Product> getAllProducts(){
     ifstream file(directoryProduct);
     json data;
@@ -26,6 +36,7 @@ vector<Product> getAllProducts(){
         file >> data;
         file.close();
     } else {
+        system("cls");
         cout << "Gagal membuka file!" << endl;
     }
     
@@ -45,6 +56,7 @@ vector<Product> getAllProducts(){
 }
 
 bool addProduct(Product &product) {
+    vector<Product> products = getAllProducts();
     try{
         ifstream file(directoryProduct);
         json data;
@@ -52,12 +64,13 @@ bool addProduct(Product &product) {
             file >> data;
             file.close();
         } else {
+            system("cls");
             cerr << "Gagal membuka file!" << endl;
             return false;
         }
     
         json newproduct;
-        newproduct["id"] = product.id;
+        newproduct["id"] = generateNewProductId(products);
         newproduct["name"] = product.name;
         newproduct["brand"] = product.brand;
         newproduct["stock"] = product.stock;
@@ -71,9 +84,8 @@ bool addProduct(Product &product) {
         if (outFile.is_open()) {
             outFile << data.dump(4); // Menyimpan dengan indentasi 4 spasi
             outFile.close();
-            cout << "Product berhasil ditambahkan!" << endl;
-            
         } else {
+            system("cls");
             cerr << "Gagal membuka file untuk menyimpan data!" << endl;
         }    
     }
@@ -82,4 +94,116 @@ bool addProduct(Product &product) {
     }
     
     return true;
+}
+
+Product GetProduct(int &id){
+    ifstream file(directoryProduct);
+    json data;
+    if (file.is_open()) {
+        file >> data;
+        file.close();
+    } else {
+        system("cls");
+        cout << "Gagal membuka file!" << endl;
+    }
+    
+    Product product;
+
+    for (const auto &item : data){
+        if(item["id"] == id){
+            product.id = item["id"];
+            product.name = item["name"];
+            product.brand = item["brand"];
+            product.stock = item["stock"];
+            product.price = item["price"];
+        }
+    }
+    return product;
+}
+
+bool EditProduct(int id, Product editedProduct){
+    vector<Product> products = getAllProducts();
+    bool found = false;
+
+    for(auto &item : products){
+        if(item.id == id){
+            item.id = id;
+            item.name = editedProduct.name;
+            item.brand = editedProduct.brand;
+            item.stock = editedProduct.stock;
+            item.price = editedProduct.price;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        system("cls");
+        cerr << "Product dengan ID " << id << " tidak ditemukan!" << endl;
+        return false;
+    }
+
+    json data = json::array();
+    for (const auto &product : products) {
+        json productJson;
+        productJson["id"] = product.id;
+        productJson["name"] = product.name;
+        productJson["brand"] = product.brand;
+        productJson["stock"] = product.stock;
+        productJson["price"] = product.price;
+
+        data.push_back(productJson);
+    }
+
+    ofstream outFile(directoryProduct);
+    if (outFile.is_open()) {
+        outFile << data.dump(4);
+        outFile.close();
+        return true;
+    } else {
+        system("cls");
+        cerr << "Gagal menyimpan perubahan ke file!" << endl;
+        return false;
+    }
+}
+
+bool DeleteProduct(int id){
+    vector<Product> products = getAllProducts();
+    bool found = false;
+
+    for (auto product = products.begin(); product != products.end(); ++product) {
+        if (product->id == id) {
+            products.erase(product);
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        system("cls");
+        cerr << "Product dengan ID " << id << " tidak ditemukan!" << endl;
+        return false;
+    }
+
+    json data;
+    for (const auto& product : products) {
+        data.push_back({
+            {"id", product.id},
+            {"name", product.name},
+            {"brand", product.brand},
+            {"stock", product.stock},
+            {"price", product.price}
+        });
+    }
+
+    ofstream file(directoryProduct);
+    if (file.is_open()) {
+        file << setw(4) << data;
+        file.close();
+        return true;
+    } else {
+        system("cls");
+        cerr << "Gagal menyimpan file!" << endl;
+        return false;
+    }
 }

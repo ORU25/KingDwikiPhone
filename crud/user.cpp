@@ -18,6 +18,16 @@ struct User {
     string role;
 };
 
+int generateNewUserId(const vector<User>& users) {
+    int maxId = 0;
+    for (const auto& user : users) {
+        if (user.id > maxId) {
+            maxId = user.id;
+        }
+    }
+    return maxId + 1;
+}
+
 vector<User> getAllUsers() {
     ifstream file(directoryUser);
     json data;
@@ -25,6 +35,7 @@ vector<User> getAllUsers() {
         file >> data;
         file.close();
     } else {
+        system("cls");
         cout << "Gagal membuka file!" << endl;
     }
     
@@ -42,6 +53,7 @@ vector<User> getAllUsers() {
 }
 
 bool addUser(User &user) {
+    vector<User> users = getAllUsers();
     try{
         ifstream file(directoryUser);
         json data;
@@ -49,12 +61,13 @@ bool addUser(User &user) {
             file >> data;
             file.close();
         } else {
+            system("cls");
             cerr << "Gagal membuka file!" << endl;
             return false;
         }
     
         json newUser;
-        newUser["id"] = user.id;
+        newUser["id"] = generateNewUserId(users);
         newUser["username"] = user.username;
         newUser["password"] = user.password;
         newUser["role"] = user.role;
@@ -66,10 +79,9 @@ bool addUser(User &user) {
     
         if (outFile.is_open()) {
             outFile << data.dump(4); // Menyimpan dengan indentasi 4 spasi
-            outFile.close();
-            cout << "User berhasil ditambahkan!" << endl;
-            
+            outFile.close();            
         } else {
+            system("cls");
             cerr << "Gagal membuka file untuk menyimpan data!" << endl;
         }    
     }
@@ -87,6 +99,7 @@ User getUser(int &id){
         file >> data;
         file.close();
     } else {
+        system("cls");
         cout << "Gagal membuka file!" << endl;
     }
     
@@ -104,13 +117,13 @@ User getUser(int &id){
     return user;
 }
 
-bool EditUser(User &user, User editedUser){
+bool EditUser(int id, User editedUser){
     vector<User> users = getAllUsers();
     bool found = false;
 
     for(auto &item : users){
-        if(item.id == user.id){
-            item.id = editedUser.id;
+        if(item.id == id){
+            item.id = id;
             item.username = editedUser.username;
             item.password = editedUser.password;
             item.role = editedUser.role;
@@ -120,17 +133,18 @@ bool EditUser(User &user, User editedUser){
     }
 
     if (!found) {
-        cerr << "User dengan ID " << user.id << " tidak ditemukan!" << endl;
+        system("cls");
+        cerr << "User dengan ID " << id << " tidak ditemukan!" << endl;
         return false;
     }
 
     json data = json::array();
-    for (const auto &u : users) {
+    for (const auto &user : users) {
         json userJson;
-        userJson["id"] = u.id;
-        userJson["username"] = u.username;
-        userJson["password"] = u.password;
-        userJson["role"] = u.role;
+        userJson["id"] = user.id;
+        userJson["username"] = user.username;
+        userJson["password"] = user.password;
+        userJson["role"] = user.role;
         data.push_back(userJson);
     }
 
@@ -138,10 +152,50 @@ bool EditUser(User &user, User editedUser){
     if (outFile.is_open()) {
         outFile << data.dump(4);
         outFile.close();
-        cout << "User berhasil diedit!" << endl;
         return true;
     } else {
+        system("cls");
         cerr << "Gagal menyimpan perubahan ke file!" << endl;
+        return false;
+    }
+}
+
+bool DeleteUser(int id) {
+    vector<User> users = getAllUsers();
+    bool found = false;
+
+    for (auto user = users.begin(); user != users.end(); ++user) {
+        if (user->id == id) {
+            users.erase(user);
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        system("cls");
+        cerr << "User dengan ID " << id << " tidak ditemukan!" << endl;
+        return false;
+    }
+
+    json data;
+    for (const auto& user : users) {
+        data.push_back({
+            {"id", user.id},
+            {"username", user.username},
+            {"password", user.password},
+            {"role", user.role}
+        });
+    }
+
+    ofstream file(directoryUser);
+    if (file.is_open()) {
+        file << setw(4) << data;
+        file.close();
+        return true;
+    } else {
+        system("cls");
+        cerr << "Gagal menyimpan file!" << endl;
         return false;
     }
 }

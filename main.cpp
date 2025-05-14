@@ -166,31 +166,81 @@ void CrudUser(){
         if(pilihan == 1){
             try{
                 User user;
-                cout << "ID: ";
-                cin >> user.id;
                 cout << "Username: ";
                 cin >> user.username;
                 cout << "Password: ";
                 cin >> user.password;
                 cout << "Role: ";
                 cin >> user.role;
-                if(!addUser(user)){
-                    cout << "User gagal ditambahkan!" << endl;
+                if(addUser(user)){
+                    system("cls");
+                    cout << "User berhasil ditambahkan!" << endl;
                 }
             }catch(const exception& e){
                 cerr << "Error: " << e.what() << endl;
             }
-
         }else if(pilihan == 2){
             vector<User> users = getAllUsers();
             
             for (const auto &user : users) {
-                cout << "ID: " << user.id << ", Username: " << user.username << ", Password: " << user.password << ", Role: " << user.role << endl;
+                cout << "ID: " << user.id 
+                << ", Username: " << user.username 
+                << ", Password: " << user.password 
+                << ", Role: " << user.role << endl;
             }
         }else if(pilihan == 3){
-            //update user
+            int id;
+            User editedUser;
+
+            vector<User> users = getAllUsers();
+            
+            for (const auto &user : users) {
+                cout << "ID: " << user.id 
+                << ", Username: " << user.username 
+                << ", Password: " << user.password 
+                << ", Role: " << user.role << endl;
+            }
+
+            cout << "Masukkan ID user: ";
+            cin >> id;
+
+            try{
+                cout << "Username: ";
+                cin >> editedUser.username;
+                cout << "Password: ";
+                cin >> editedUser.password;
+                cout << "Role: ";
+                cin >> editedUser.role;
+                if(EditUser(id, editedUser)){
+                    system("cls");
+                    cout << "User Berhasil diubah!" << endl;
+                }
+            }catch(const exception& e){
+                cerr << "Error: " << e.what() << endl;
+            }
         }else if(pilihan == 4){
-            //delete user
+            int id;
+
+            vector<User> users = getAllUsers();
+            
+            for (const auto &user : users) {
+                cout << "ID: " << user.id 
+                << ", Username: " << user.username 
+                << ", Password: " << user.password 
+                << ", Role: " << user.role << endl;
+            }
+
+            cout << "Masukkan ID user: ";
+            cin >> id;
+
+            try{
+                if(DeleteUser(id)){
+                    system("cls");
+                    cout << "User Berhasil dihapus!" << endl;
+                }
+            }catch(const exception& e){
+                cerr << "Error: " << e.what() << endl;
+            }
         }else if(pilihan == 0){
             cout << "Logout" << endl;
         }else{
@@ -227,8 +277,6 @@ void CrudProduct(){
         if(pilihan == 1){
             try{
                 Product product;
-                cout << "ID: ";
-                cin >> product.id;
                 cout << "Name: ";
                 cin >> product.name;
                 cout << "Brand: ";
@@ -237,8 +285,9 @@ void CrudProduct(){
                 cin >> product.stock;
                 cout << "Price: ";
                 cin >> product.price;
-                if(!addProduct(product)){
-                    cout << "Product gagal ditambahkan!" << endl;
+                if(addProduct(product)){
+                    system("cls");
+                    cout << "Product berhasil ditambahkan!" << endl;
                 }
             }catch(const exception& e){
                 cerr << "Error: " << e.what() << endl;
@@ -249,6 +298,66 @@ void CrudProduct(){
             for (const auto &product : products ) {
                 cout << "ID: " << product.id << ", Name: " << product.name << ", Brand: " << product.brand << ", Stock: " << product.stock << ", Price: " << product.price << endl;
             }
+        }else if(pilihan == 3){
+            int id;
+            Product editedproduct;
+
+            vector<Product> products = getAllProducts();
+            
+            for (const auto &product : products) {
+                cout << "ID: " << product.id 
+                << ", Name: " << product.name 
+                << ", Brand: " << product.brand 
+                << ", Stock: " << product.stock 
+                << ", Price: " << product.price << endl;
+            }
+
+            cout << "Masukkan ID product: ";
+            cin >> id;
+
+            try{
+                cout << "Name: ";
+                cin >> editedproduct.name;
+                cout << "Brand: ";
+                cin >> editedproduct.brand;
+                cout << "Stock: ";
+                cin >> editedproduct.stock;
+                cout << "Price: ";
+                cin >> editedproduct.price;
+                if(EditProduct(id, editedproduct)){
+                    system("cls");
+                    cout << "Product Berhasil diubah!" << endl;
+                }
+            }catch(const exception& e){
+                cerr << "Error: " << e.what() << endl;
+            }
+        }else if(pilihan == 4){
+            int id;
+            vector<Product> products = getAllProducts();
+            
+            for (const auto &product : products) {
+                cout << "ID: " << product.id 
+                << ", Name: " << product.name 
+                << ", Brand: " << product.brand 
+                << ", Stock: " << product.stock 
+                << ", Price: " << product.price << endl;
+            }
+
+            cout << "Masukkan ID product: ";
+            cin >> id;
+
+            try{
+                if(DeleteProduct(id)){
+                    system("cls");
+                    cout << "Product Berhasil dihapus!" << endl;
+                }
+            }catch(const exception& e){
+                cerr << "Error: " << e.what() << endl;
+            }
+        }else if(pilihan == 0){
+            cout << "Logout" << endl;
+        }else{
+            cout << "Pilihan tidak valid!" << endl;
         }
     }
 }
