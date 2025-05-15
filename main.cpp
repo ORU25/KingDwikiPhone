@@ -10,7 +10,8 @@ void AdminMenu(User &user);
 void UserMenu(User &user);
 void CrudUser();
 void CrudProduct();
-void CrudOrder();
+void CrudOrder(User &user);
+void CreateOrder(User &user);
 
 
 int main() {
@@ -28,7 +29,7 @@ int main() {
         cout << "1. Login" << endl;
         cout << "2. Register" << endl;
         cout << "0. Keluar" << endl;
-        cout << "Pilih opsi (1-0): ";
+        cout << "Pilih opsi: ";
 
         cin >> pilihanAwal;
 
@@ -38,6 +39,7 @@ int main() {
         if (cin.fail()) {
             cin.clear(); // Reset status error
             cin.ignore(); // Buang karakter sisa
+            system("cls");
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
         }
@@ -83,7 +85,7 @@ void AdminMenu(User &user){
         cout << "2. Kelola produk" << endl;
         cout << "3. Kelola pesanan" << endl;
         cout << "0. Logout" << endl;
-        cout << "Pilih opsi (1-0): ";
+        cout << "Pilih opsi: ";
 
         cin >> pilihan;
 
@@ -93,6 +95,7 @@ void AdminMenu(User &user){
         if (cin.fail()) {
             cin.clear(); // Reset status error
             cin.ignore(); // Buang karakter sisa
+            system("cls");
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
         }
@@ -102,7 +105,7 @@ void AdminMenu(User &user){
         }else if(pilihan == 2){
             CrudProduct();
         }else if(pilihan == 3){
-            CrudOrder();
+            CrudOrder(user);
         }else if(pilihan == 0){
             cout << "Logout" << endl;
         }else{
@@ -122,7 +125,7 @@ void UserMenu(User &user){
         cout << "1. Buat pesanan" << endl;
         cout << "2. Lihat history pesanan" << endl;
         cout << "0. Logout" << endl;
-        cout << "Pilih opsi (1-0): ";
+        cout << "Pilih opsi: ";
         
         cin >> pilihan;
 
@@ -132,8 +135,19 @@ void UserMenu(User &user){
         if (cin.fail()) {
             cin.clear(); // Reset status error
             cin.ignore(); // Buang karakter sisa
+            system("cls");
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
+        }
+
+        if(pilihan == 1){
+            CreateOrder(user);
+        }else if(pilihan == 2){
+            cout << "Lihat history pesanan" << endl;
+        }else if(pilihan == 0){
+            cout << "Logout" << endl;
+        }else{
+            cout << "Pilihan tidak valid!" << endl;
         }
     }
 }
@@ -148,8 +162,8 @@ void CrudUser(){
         cout << "2. Tampilkan User" << endl;
         cout << "3. Ubah User" << endl;
         cout << "4. Hapus User" << endl;
-        cout << "0. Logout" << endl;
-        cout << "Pilih opsi (1-0): ";
+        cout << "0. Back" << endl;
+        cout << "Pilih opsi: ";
 
         cin >> pilihan;
 
@@ -159,6 +173,7 @@ void CrudUser(){
         if (cin.fail()) {
             cin.clear(); // Reset status error
             cin.ignore(); // Buang karakter sisa
+            system("cls");
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
         }
@@ -172,7 +187,7 @@ void CrudUser(){
                 cin >> user.password;
                 cout << "Role: ";
                 cin >> user.role;
-                if(addUser(user)){
+                if(AddUser(user)){
                     system("cls");
                     cout << "User berhasil ditambahkan!" << endl;
                 }
@@ -259,8 +274,8 @@ void CrudProduct(){
         cout << "2. Tampilkan Produk" << endl;
         cout << "3. Ubah Produk" << endl;
         cout << "4. Hapus Produk" << endl;
-        cout << "0. Logout" << endl;
-        cout << "Pilih opsi (1-0): ";
+        cout << "0. Back" << endl;
+        cout << "Pilih opsi: ";
 
         cin >> pilihan;
 
@@ -270,6 +285,7 @@ void CrudProduct(){
         if (cin.fail()) {
             cin.clear(); // Reset status error
             cin.ignore(); // Buang karakter sisa
+            system("cls");
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
         }
@@ -285,7 +301,7 @@ void CrudProduct(){
                 cin >> product.stock;
                 cout << "Price: ";
                 cin >> product.price;
-                if(addProduct(product)){
+                if(AddProduct(product)){
                     system("cls");
                     cout << "Product berhasil ditambahkan!" << endl;
                 }
@@ -362,7 +378,7 @@ void CrudProduct(){
     }
 }
 
-void CrudOrder(){
+void CrudOrder(User &user){
     int pilihan = -1;
     while(pilihan != 0){
         cout << "=================================" << endl;
@@ -370,10 +386,9 @@ void CrudOrder(){
         cout << "=================================" << endl;
         cout << "1. Tambah Pesanan" << endl;
         cout << "2. Tampilkan Pesanan" << endl;
-        cout << "3. Ubah Pesanan" << endl;
-        cout << "4. Hapus Pesanan" << endl;
-        cout << "0. Logout" << endl;
-        cout << "Pilih opsi (1-0): ";
+        cout << "3. Verifikasi Pesanan" << endl;
+        cout << "0. Back" << endl;
+        cout << "Pilih opsi: ";
 
         cin >> pilihan;
 
@@ -383,12 +398,13 @@ void CrudOrder(){
         if (cin.fail()) {
             cin.clear(); // Reset status error
             cin.ignore(); // Buang karakter sisa
+            system("cls");
             cout << "Input tidak valid! Harus angka.\n" << endl;
             continue;
         }
 
         if(pilihan == 1){
-
+            CreateOrder(user);
         }else if(pilihan == 2){
             vector<Order> orders = getAllOrders();
             
@@ -397,6 +413,153 @@ void CrudOrder(){
                 for (const auto &orderItem : order.products) {
                     cout << "   - Product ID: " << orderItem.product_id << ", Name: " << orderItem.name << ", Quantity: " << orderItem.quantity << ", Price: " << orderItem.price << endl;
                 }
+            }
+        }
+    }
+}
+
+
+void CreateOrder(User &user){
+    bool pesan = true;
+
+    Order order;
+    order.total_price = 0;
+    order.user_id = user.id;
+    
+    vector<Product> products = getAllProducts();
+
+    while (pesan){
+        cout << "\nDaftar Produk:\n";
+        for (const auto &product : products ) {
+            if (product.stock == 0) {
+                continue;
+            }
+            cout << "ID: " << product.id << ", Name: " << product.name << ", Brand: " << product.brand << ", Stock: " << product.stock << ", Price: " << product.price << endl;
+        }    
+
+        cout << "\nPilih ID product yang ingin dipesan: ";
+        int pilihan;
+        cin >> pilihan;
+
+        if (cin.fail()) {
+            cin.clear(); 
+            cin.ignore();
+            system("cls");
+            cout << "Input tidak valid! Harus angka.\n" << endl;
+            continue;
+        }
+
+        auto it = find_if(products.begin(), products.end(), [pilihan](const Product& p) {
+            return p.id == pilihan;
+        });
+
+        if (it == products.end() || it->stock == 0) {
+            system("cls");
+            cout << "Produk dengan ID " << pilihan << " tidak ditemukan.\n";
+            continue;
+        }
+
+        Product &product = *it;
+
+        bool sudahDipesan = false;
+        for (const auto &item : order.products) {
+            if (item.product_id == product.id) {
+                sudahDipesan = true;
+                break;
+            }
+        }
+
+        if (sudahDipesan) {
+            system("cls");
+            cout << "Produk ini sudah ditambahkan ke pesanan sebelumnya. Tidak dapat dipesan dua kali.\n";
+            continue;
+        }
+
+        // cout << "Product ID: " << product.id << ", Name: " << product.name << ", Brand: " << product.brand << ", Stock: " << product.stock << ", Price: " << product.price << endl;
+
+        cout << "masukkan quantity: ";
+        int quantity;
+        cin >> quantity;
+
+        if (cin.fail() || quantity <= 0) {
+            cin.clear();
+            cin.ignore();
+            system("cls");
+            cout << "Input tidak valid! / Quantity tidak boleh angka negatif.\n";
+            continue;
+        }
+
+        if (quantity > product.stock) {
+            system("cls");
+            cout << "Maaf, stok " << product.name << " tidak mencukupi. Stok tersedia: " << product.stock << endl;
+            continue;
+        }
+
+        product.stock -= quantity;
+
+        OrderItem orderItem;
+        orderItem.product_id = product.id;
+        orderItem.name = product.name;
+        orderItem.quantity = quantity;
+        orderItem.price = product.price;
+        order.products.push_back(orderItem);
+        
+        order.total_price += orderItem.price * orderItem.quantity;
+
+        cout << "Produk berhasil ditambahkan ke pesanan." << endl;
+
+        char tambah;
+        while (true) {
+            cout << "Tambah produk lagi? (y/n): ";
+            cin >> tambah;
+        
+            cin.ignore();
+        
+            if (tambah == 'y' || tambah == 'Y') {
+                break; 
+            } else if (tambah == 'n' || tambah == 'N') {
+                pesan = false;
+                break;
+            } else {
+                system("cls");
+                cout << "Input tidak valid! Masukkan hanya 'y' atau 'n'.\n";
+            }
+        }
+        system("cls");
+    }
+
+    if (!order.products.empty()) {
+
+        cout << "Detail Pesanan:\n";
+        cout << "Total Price: " << order.total_price << endl;
+        for (const auto &orderItem : order.products) {
+            cout << "   - Product ID: " << orderItem.product_id << ", Name: " << orderItem.name << ", Quantity: " << orderItem.quantity << ", Price: " << orderItem.price << endl;
+        }
+
+        while(true){
+            cout << "Apakah pesanan sudah benar? (y/n): ";
+            char confirm;
+            cin >> confirm;
+
+            cin.ignore();
+
+            if (confirm == 'y' || confirm == 'Y') {
+                if (AddOrder(order)) {
+                    system("cls");
+                    cout << "Pesanan berhasil ditambahkan." << endl;
+                    for (auto &item : order.products) {
+                        UpdateProductStock(item.product_id, item.quantity);
+                    }
+                } else {
+                    system("cls");
+                    cout << "Pesanan gagal ditambahkan." << endl;
+                }
+                break;
+            } else if (confirm == 'n' || confirm == 'N') {
+                break;
+            } else {
+                system("cls");
+                cout << "Input tidak valid! Masukkan hanya 'y' atau 'n'.\n";
             }
         }
     }

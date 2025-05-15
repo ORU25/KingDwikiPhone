@@ -52,7 +52,33 @@ vector<User> getAllUsers() {
     return users;
 }
 
-bool addUser(User &user) {
+User getUser(int &id){
+    ifstream file(directoryUser);
+    json data;
+    if (file.is_open()) {
+        file >> data;
+        file.close();
+    } else {
+        system("cls");
+        cout << "Gagal membuka file!" << endl;
+    }
+    
+    User user;
+
+    for (const auto &item : data){
+        if(item["id"] == id){
+            user.id = item["id"];
+            user.username = item["username"];
+            user.password = item["password"];
+            user.role = item["role"];
+        }
+    }
+
+    return user;
+}
+
+
+bool AddUser(User &user) {
     vector<User> users = getAllUsers();
     try{
         ifstream file(directoryUser);
@@ -92,30 +118,6 @@ bool addUser(User &user) {
     return true;
 }
 
-User getUser(int &id){
-    ifstream file(directoryUser);
-    json data;
-    if (file.is_open()) {
-        file >> data;
-        file.close();
-    } else {
-        system("cls");
-        cout << "Gagal membuka file!" << endl;
-    }
-    
-    User user;
-
-    for (const auto &item : data){
-        if(item["id"] == id){
-            user.id = item["id"];
-            user.username = item["username"];
-            user.password = item["password"];
-            user.role = item["role"];
-        }
-    }
-
-    return user;
-}
 
 bool EditUser(int id, User editedUser){
     vector<User> users = getAllUsers();

@@ -55,7 +55,32 @@ vector<Product> getAllProducts(){
     return products;
 }
 
-bool addProduct(Product &product) {
+Product getProduct(int &id){
+    ifstream file(directoryProduct);
+    json data;
+    if (file.is_open()) {
+        file >> data;
+        file.close();
+    } else {
+        system("cls");
+        cout << "Gagal membuka file!" << endl;
+    }
+    
+    Product product;
+
+    for (const auto &item : data){
+        if(item["id"] == id){
+            product.id = item["id"];
+            product.name = item["name"];
+            product.brand = item["brand"];
+            product.stock = item["stock"];
+            product.price = item["price"];
+        }
+    }
+    return product;
+}
+
+bool AddProduct(Product &product) {
     vector<Product> products = getAllProducts();
     try{
         ifstream file(directoryProduct);
@@ -94,31 +119,6 @@ bool addProduct(Product &product) {
     }
     
     return true;
-}
-
-Product GetProduct(int &id){
-    ifstream file(directoryProduct);
-    json data;
-    if (file.is_open()) {
-        file >> data;
-        file.close();
-    } else {
-        system("cls");
-        cout << "Gagal membuka file!" << endl;
-    }
-    
-    Product product;
-
-    for (const auto &item : data){
-        if(item["id"] == id){
-            product.id = item["id"];
-            product.name = item["name"];
-            product.brand = item["brand"];
-            product.stock = item["stock"];
-            product.price = item["price"];
-        }
-    }
-    return product;
 }
 
 bool EditProduct(int id, Product editedProduct){
@@ -204,6 +204,42 @@ bool DeleteProduct(int id){
     } else {
         system("cls");
         cerr << "Gagal menyimpan file!" << endl;
+        return false;
+    }
+}
+
+
+bool UpdateProductStock(int id, int quantity) {
+    vector<Product> products = getAllProducts();
+    bool found = false;
+
+    for(auto &item : products){
+        if(item.id == id){
+            item.id = id;
+            item.stock -= quantity;
+        }
+    }
+
+    json data = json::array();
+    for (const auto &product : products) {
+        json productJson;
+        productJson["id"] = product.id;
+        productJson["name"] = product.name;
+        productJson["brand"] = product.brand;
+        productJson["stock"] = product.stock;
+        productJson["price"] = product.price;
+
+        data.push_back(productJson);
+    }
+
+    ofstream outFile(directoryProduct);
+    if (outFile.is_open()) {
+        outFile << data.dump(4);
+        outFile.close();
+        return true;
+    } else {
+        system("cls");
+        cerr << "Gagal menyimpan perubahan ke file!" << endl;
         return false;
     }
 }
