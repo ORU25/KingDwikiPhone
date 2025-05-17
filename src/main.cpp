@@ -12,13 +12,12 @@ using namespace std;
 
 void AdminMenu(User &user);
 void UserMenu(User &user);
-void CrudUser();
+void CrudUser(User &user);
 void CrudProduct();
 void CrudOrder(User &user);
 void CreateOrder(User &user);
 
-int main()
-{
+int main(){
     system("cls");
 
     bool isLogin = false;
@@ -45,8 +44,7 @@ int main()
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             system("cls");
-            cout << "Input tidak valid! Harus angka.\n"
-                 << endl;
+            cout << "Input tidak valid! Harus angka.\n"<< endl;
             continue;
         }
 
@@ -188,14 +186,13 @@ void AdminMenu(User &user)
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             system("cls");
-            cout << "Input tidak valid! Harus angka.\n"
-                 << endl;
+            cout << "Input tidak valid! Harus angka.\n"<< endl;
             continue;
         }
 
         if (pilihan == 1)
         {
-            CrudUser();
+            CrudUser(user);
         }
         else if (pilihan == 2)
         {
@@ -268,7 +265,7 @@ void UserMenu(User &user)
     }
 }
 
-void CrudUser()
+void CrudUser(User &user)
 {
     int pilihan = -1;
     while (pilihan != 0)
@@ -302,14 +299,14 @@ void CrudUser()
         {
             try
             {
-                User user;
+                User newUser;
                 cout << "Username: ";
-                cin >> user.username;
+                cin >> newUser.username;
                 cout << "Password: ";
-                cin >> user.password;
+                cin >> newUser.password;
                 cout << "Role: ";
-                cin >> user.role;
-                if (AddUser(user))
+                cin >> newUser.role;
+                if (AddUser(newUser))
                 {
                     system("cls");
                     cout << "User berhasil ditambahkan!" << endl;
@@ -352,6 +349,12 @@ void CrudUser()
             cout << "\nMasukkan ID user: ";
             cin >> id;
 
+            if(id == user.id){
+                system("cls");
+                cout << "Anda tidak dapat mengubah data diri sendiri!" << endl;
+                continue;
+            }
+
             try
             {
                 cout << "Username: ";
@@ -360,6 +363,15 @@ void CrudUser()
                 cin >> editedUser.password;
                 cout << "Role: ";
                 cin >> editedUser.role;
+                
+                // Validasi role
+                if (editedUser.role != "admin" && editedUser.role != "user")
+                {
+                    system("cls");
+                    cout << "Role tidak valid! Harus 'admin' atau 'user'." << endl;
+                    continue;
+                }
+
                 if (EditUser(id, editedUser))
                 {
                     system("cls");
