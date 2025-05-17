@@ -120,7 +120,7 @@ void displayOrderItemTable(const vector<OrderItem> &orderItems, int indent)
              << setw(quantityWidth) << item.quantity << "|"
              << setw(priceWidth) << item.price << "|" << endl;
     }
-
+    
     // Footer tabel
     cout << string(indent, ' ') << "+" << string(productIdWidth, '-') << "+"
          << string(nameWidth, '-') << "+" << string(quantityWidth, '-') << "+"
@@ -160,7 +160,7 @@ void displayOrderTable(const vector<Order> &orders)
              << setw(totalPriceWidth) << order.total_price << "|"
              << setw(statusWidth) << order.status.substr(0, statusWidth - 1) << "|" << endl;
         // Tabel detail OrderItem
-        displayOrderItemTable(order.products, 2);
+     //    displayOrderItemTable(order.products, 2);
     }
 
     // Footer tabel

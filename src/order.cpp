@@ -129,5 +129,17 @@ bool AddOrder(Order &order){
     return true;
 }
 
+vector<Order> getOrdersByUserId(int user_id) {
+    vector<Order> orders = getAllOrders();
+    vector<Order> userOrders;
+
+    for (const auto &order : orders) {
+        if (order.user_id == user_id) {
+            userOrders.push_back(order);
+        }
+    }
+
+    return userOrders;
+}
 
 // bool ConfirmOrder(int id, string status){}

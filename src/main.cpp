@@ -239,8 +239,7 @@ void UserMenu(User &user)
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             system("cls");
-            cout << "Input tidak valid! Harus angka.\n"
-                 << endl;
+            cout << "Input tidak valid! Harus angka.\n"<< endl;
             continue;
         }
 
@@ -251,6 +250,73 @@ void UserMenu(User &user)
         else if (pilihan == 2)
         {
             cout << "Lihat history pesanan" << endl;
+            vector<Order> userOrders = getOrdersByUserId(user.id);
+            if (!userOrders.empty())
+            {
+                displayOrderTable(userOrders);
+                while (true)
+                {
+                    cout << "Tampilkan detail produk dalam pesanan? (y/n): ";
+                    char confirm;
+                    cin >> confirm;
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    if (confirm == 'y' || confirm == 'Y')
+                    {
+                        cout << "masukkan ID pesanan: ";
+                        int id;
+                        cin >> id;
+                        if (cin.fail())
+                        {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            system("cls");
+                            cout << "Input tidak valid! Harus angka.\n"<< endl;
+                            continue;
+                        }
+                        Order result = {0};
+
+                        for (auto &item : userOrders)
+                        {
+                            if (item.id == id)
+                            {
+                                result = item;
+                                break;
+                            }
+                        }
+
+                        if (result.id != 0)
+                        {
+                            cout << "=================================" << endl;
+                            cout << "Pesanan ID: " << result.id << endl;
+                            cout << "User ID: " << result.user_id << endl;
+                            cout << "Total Price: " << result.total_price << endl;
+                            cout << "Status: " << result.status << endl;
+                            cout << "=================================" << endl;
+                            cout << "Detail Produk dalam Pesanan:\n";
+                            displayOrderItemTable(result.products, 0); // Tampilkan detail produk dalam pesanan
+                        }
+                        else
+                        {
+                            cout << "Dtail pesanan tidak ditemukan!" << endl;
+                        }
+
+                    }
+                    else if (confirm == 'n' || confirm == 'N')
+                    {   
+                        system("cls");
+                        break;
+                    }
+                    else
+                    {
+                        system("cls");
+                        cout << "Input tidak valid! Masukkan hanya 'y' atau 'n'.\n";
+                    }
+                }
+            }
+            else
+            {
+                cout << "Tidak ada pesanan untuk ditampilkan!" << endl;
+            }
         }
         else if (pilihan == 0)
         {
@@ -634,8 +700,7 @@ void CrudOrder(User &user)
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             system("cls");
-            cout << "Input tidak valid! Harus angka.\n"
-                 << endl;
+            cout << "Input tidak valid! Harus angka.\n"<< endl;
             continue;
         }
 
@@ -655,6 +720,65 @@ void CrudOrder(User &user)
             {
                 cout << "Tidak ada pesanan untuk ditampilkan!" << endl;
             }
+
+            while (true)
+            {
+                cout << "Tampilkan detail produk dalam pesanan? (y/n): ";
+                char confirm;
+                cin >> confirm;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                if (confirm == 'y' || confirm == 'Y')
+                {
+                    cout << "masukkan ID pesanan: ";
+                    int id;
+                    cin >> id;
+                    if (cin.fail())
+                    {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        system("cls");
+                        cout << "Input tidak valid! Harus angka.\n"<< endl;
+                        continue;
+                    }
+                    Order result = {0};
+
+                    for (auto &item : orders)
+                    {
+                        if (item.id == id)
+                        {
+                            result = item;
+                            break;
+                        }
+                    }
+
+                    if (result.id != 0)
+                    {
+                        cout << "=================================" << endl;
+                        cout << "Pesanan ID: " << result.id << endl;
+                        cout << "User ID: " << result.user_id << endl;
+                        cout << "Total Price: " << result.total_price << endl;
+                        cout << "Status: " << result.status << endl;
+                        cout << "=================================" << endl;
+                        cout << "Detail Produk dalam Pesanan:\n";
+                        displayOrderItemTable(result.products, 0); // Tampilkan detail produk dalam pesanan
+                    }
+                    else
+                    {
+                        cout << "Dtail pesanan tidak ditemukan!" << endl;
+                    }
+
+                }
+                else if (confirm == 'n' || confirm == 'N')
+                {   
+                    system("cls");
+                    break;
+                }
+                else
+                {
+                    system("cls");
+                    cout << "Input tidak valid! Masukkan hanya 'y' atau 'n'.\n";
+                }
+            }
         }
         else if (pilihan == 3)
         {
@@ -669,8 +793,7 @@ void CrudOrder(User &user)
             {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Input tidak valid! Harus angka.\n"
-                     << endl;
+                cout << "Input tidak valid! Harus angka.\n"<< endl;
                 continue;
             }
             Order result;
@@ -680,6 +803,9 @@ void CrudOrder(User &user)
                 vector<Order> singleOrder = {result};
                 cout << "Pesanan ditemukan:\n";
                 displayOrderTable(singleOrder);
+
+                cout << "\nDetail Produk dalam Pesanan:\n";
+                displayOrderItemTable(result.products, 0); // Tampilkan detail produk dalam pesanan
             }
             else
             {
@@ -728,13 +854,11 @@ void CreateOrder(User &user)
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             system("cls");
-            cout << "Input tidak valid! Harus angka.\n"
-                 << endl;
+            cout << "Input tidak valid! Harus angka.\n"<< endl;
             continue;
         }
 
-        auto it = find_if(products.begin(), products.end(), [pilihan](const Product &p)
-                          { return p.id == pilihan; });
+        auto it = find_if(products.begin(), products.end(), [pilihan](const Product &p){ return p.id == pilihan; });
 
         if (it == products.end() || it->stock == 0)
         {

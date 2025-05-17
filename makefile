@@ -5,7 +5,7 @@ EXE = $(BINDIR)/$(TARGET)
 
 # Kompiler dan flag
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iheader -Ilibs/nlohmann
+CXXFLAGS = -std=c++17 -Iheader -Ilibs/nlohmann
 
 # Semua file sumber (.cpp)
 SRCS = $(wildcard src/*.cpp)

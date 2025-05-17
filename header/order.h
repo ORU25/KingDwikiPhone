@@ -36,6 +36,7 @@ int generateNewOrderId(const vector<Order>& orders);
 vector<Order> getAllOrders();
 Order getOrder(int &id);
 bool AddOrder(Order &order);
+vector<Order> getOrdersByUserId(int user_id);
 
 
 #endif
