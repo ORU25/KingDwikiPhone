@@ -1,5 +1,9 @@
+# Nama program/output dan folder bin
 TARGET = KingDwikiPhone
+BINDIR = bin
+EXE = $(BINDIR)/$(TARGET)
 
+# Kompiler dan flag
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Iheader -Ilibs/nlohmann
 
@@ -12,14 +16,21 @@ OBJDIR = build
 # Konversi src/file.cpp jadi build/file.o
 OBJS = $(patsubst src/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
-# Rule buat compile setiap src/%.cpp ke build/%.o
+# Default: build dan jalankan program
+run: $(EXE)
+	$(EXE)
+
+# Compile setiap .cpp ke .o
 $(OBJDIR)/%.o: src/%.cpp
 	if not exist "$(dir $@)" mkdir "$(dir $@)"
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Target utama link dari semua file objek
-$(TARGET): $(OBJS)
-	$(CXX) $(OBJS) -o $(TARGET)
+# Build executable ke folder bin
+$(EXE): $(OBJS)
+	if not exist "$(BINDIR)" mkdir "$(BINDIR)"
+	$(CXX) $(OBJS) -o $(EXE)
 
+# Bersihkan file objek dan executable
 clean:
-	del /Q $(subst /,\,$(OBJS)) $(TARGET) 2>nul || exit 0
+	del /Q $(subst /,\,$(OBJS)) $(EXE) 2>nul || exit 0
+	
