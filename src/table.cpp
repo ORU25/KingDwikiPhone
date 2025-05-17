@@ -1,5 +1,7 @@
 #include "../header/table.h"
 
+
+// Fungsi untuk menampilkan user dalam bentuk tabel
 void displayUserTable(const vector<User> &users)
 {
     if (users.empty())
