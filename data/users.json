@@ -10,5 +10,17 @@
         "password": "userbaru",
         "role": "user",
         "username": "userbaru"
+    },
+    {
+        "id": 3,
+        "password": "tes",
+        "role": "user",
+        "username": "tes"
+    },
+    {
+        "id": 4,
+        "password": "jawa",
+        "role": "user",
+        "username": "jawa"
     }
 ]

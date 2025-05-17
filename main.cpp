@@ -20,6 +20,7 @@ int main() {
     bool isLogin = false;
     int login_attempt = 3;
     int pilihanAwal = -1;
+    User user;
     
 
     while (pilihanAwal != 0 && login_attempt > 0) {
@@ -44,29 +45,86 @@ int main() {
             continue;
         }
         
-        if (pilihanAwal == 1) {
-            cout << "Login" << endl;
-            isLogin = true;
-        } else if (pilihanAwal == 2) {
-            cout << "Register" << endl;
-        } else if (pilihanAwal == 0) {
-            cout << "Program selesai!" << endl;
-            return 0;
-        } else {
-            cout << "Pilihan tidak valid!" << endl;
+if (pilihanAwal == 1) {
+    cout << "=== Login ===" << endl;
+    string username, password;
+    bool loginSuccess = false;
+    
+    while (login_attempt > 0 && !loginSuccess) {
+        cout << "Username: ";
+        cin >> username;
+        cout << "Password: ";
+        cin >> password;
+        
+        vector<User> users = getAllUsers();
+        for (const auto& currentUser : users) {
+            if (currentUser.username == username && currentUser.password == password) {
+                loginSuccess = true;
+                isLogin = true;
+                user = currentUser; // Update variabel user utama dengan data user yang login
+                system("cls");
+                cout << "Login berhasil! Selamat datang, " << user.username << endl;
+                break;
+            }
         }
+        
+        if (!loginSuccess) {
+            login_attempt--;
+            system("cls");
+            if (login_attempt > 0) {
+                cout << "Username atau password salah! Sisa percobaan: " << login_attempt << endl;
+            } else {
+                cout << "Anda telah melebihi batas percobaan login. Program berhenti." << endl;
+                return 0;
+            }
+        }
+    }
+} else if (pilihanAwal == 2) {
+    cout << "=== Register ===" << endl;
+    User newUser;
+    
+    // Validasi username unik
+    bool usernameExists;
+    do {
+        usernameExists = false;
+        cout << "Username: ";
+        cin >> newUser.username;
+        
+        vector<User> users = getAllUsers();
+        for (const auto& user : users) {
+            if (user.username == newUser.username) {
+                system("cls");
+                cout << "Username sudah terdaftar! Silakan gunakan username lain." << endl;
+                usernameExists = true;
+                break;
+            }
+        }
+    } while (usernameExists);
+    
+    cout << "Password: ";
+    cin >> newUser.password;
+    
+    // Set default role to "user" for new registrations
+    newUser.role = "user";
+    
+    if (AddUser(newUser)) {
+        system("cls");
+        cout << "Registrasi berhasil! Silakan login dengan akun baru Anda." << endl;
+        // Kembali ke menu utama
+        continue; // Langsung lanjut ke iterasi berikutnya (kembali ke menu login/register)
+    } else {
+        system("cls");
+        cout << "Registrasi gagal. Silakan coba lagi." << endl;
+    }
+}
         
 
         if(isLogin){
-            
-            // user sementara
-            User user = {1, "dwiki", "123", "admin"};
-            
             if(user.role == "admin"){
                 AdminMenu(user);
             }else if(user.role == "user"){
                 UserMenu(user);
-            }
+            }   
         }
     }
 
@@ -79,7 +137,7 @@ void AdminMenu(User &user){
         cout << "=================================" << endl;
         cout << "Selamat Datang di KING DWIKIPHONE" << endl;
         cout << "=================================" << endl;
-        cout << "Hallo " << user.username << endl;
+        cout << "Halo " << user.username << endl;
         cout << "=================================" << endl;
         cout << "1. Kelola user" << endl;
         cout << "2. Kelola produk" << endl;
@@ -107,6 +165,7 @@ void AdminMenu(User &user){
         }else if(pilihan == 3){
             CrudOrder(user);
         }else if(pilihan == 0){
+            bool isLogin = false;
             cout << "Logout" << endl;
         }else{
             cout << "Pilihan tidak valid!" << endl;
@@ -120,7 +179,7 @@ void UserMenu(User &user){
         cout << "=================================" << endl;
         cout << "Selamat Datang di KING DWIKIPHONE" << endl;
         cout << "=================================" << endl;
-        cout << "Hallo " << user.username << endl;
+        cout << "Halo " << user.username << endl;
         cout << "=================================" << endl;
         cout << "1. Buat pesanan" << endl;
         cout << "2. Lihat history pesanan" << endl;
@@ -145,6 +204,7 @@ void UserMenu(User &user){
         }else if(pilihan == 2){
             cout << "Lihat history pesanan" << endl;
         }else if(pilihan == 0){
+            bool isLogin = false;
             cout << "Logout" << endl;
         }else{
             cout << "Pilihan tidak valid!" << endl;
