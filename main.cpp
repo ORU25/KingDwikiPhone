@@ -67,7 +67,8 @@ int main()
                     {
                         loginSuccess = true;
                         isLogin = true;
-                        user = currentUser; // Update variabel user utama dengan data user yang login
+                        login_attempt = 3;
+                        user = currentUser;
                         system("cls");
                         cout << "Login berhasil! Selamat datang, " << user.username << endl;
                         break;
@@ -126,14 +127,21 @@ int main()
             {
                 system("cls");
                 cout << "Registrasi berhasil! Silakan login dengan akun baru Anda." << endl;
-                // Kembali ke menu utama
-                continue; // Langsung lanjut ke iterasi berikutnya (kembali ke menu login/register)
             }
             else
             {
                 system("cls");
                 cout << "Registrasi gagal. Silakan coba lagi." << endl;
             }
+        }
+        else if (pilihanAwal == 0)
+        {
+            cout << "Program selesai!" << endl;
+            return 0;
+        }
+        else
+        {
+            cout << "Pilihan tidak valid!" << endl;
         }
 
         if (isLogin)
@@ -197,6 +205,7 @@ void AdminMenu(User &user)
         }
         else if (pilihan == 0)
         {
+            bool login_attempt = 3;
             bool isLogin = false;
             cout << "Logout" << endl;
         }
@@ -247,6 +256,7 @@ void UserMenu(User &user)
         }
         else if (pilihan == 0)
         {
+            bool login_attempt = 3;
             bool isLogin = false;
             cout << "Logout" << endl;
         }
