@@ -782,7 +782,118 @@ void CrudOrder(User &user)
         }
         else if (pilihan == 3)
         {
-            cout << "Verifikasi Pesanan (belum diimplementasikan)" << endl;
+            vector<Order> orders = getAllOrders();
+            if (!orders.empty())
+            {   
+                vector<Order> pendingOrders;
+
+                for (auto &order : orders)  
+                {
+                    if (order.status == "pending")
+                    {
+                        pendingOrders.push_back(order);
+                    }
+                }
+                displayOrderTable(pendingOrders);
+                cout << "\nMasukkan ID pesanan yang ingin diverifikasi: ";
+                int id;
+                cin >> id;
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    system("cls");
+                    cout << "Input tidak valid! Harus angka.\n"<< endl;
+                    continue;
+                }
+                
+                Order order = {0};
+
+                for (auto &item : pendingOrders)
+                {
+                    if (item.id == id)
+                    {
+                        order = item;
+                        break;
+                    }
+                }
+                
+                if (order.id != 0)
+                {   
+                    int pilihanVerify = -1;
+                    while(pilihanVerify != 0){
+                        system("cls");
+                        cout << "Pesanan ID: " << order.id << endl;
+                        cout << "User ID: " << order.user_id << endl;
+                        cout << "Total Price: " << order.total_price << endl;
+                        cout << "Status: " << order.status << endl;
+
+                        displayOrderItemTable(order.products, 0);
+    
+                        cout << "\nVerifikasi Pesanan: "<< endl;
+                        cout << "1. Accept" << endl;
+                        cout << "2. Reject" << endl;
+                        cout << "0. Kembali" << endl;
+                        
+                        cout << "Pilih opsi: ";
+
+                        cin >> pilihanVerify;
+                        if (cin.fail())
+                        {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            system("cls");
+                            cout << "Input tidak valid! Harus angka.\n"<< endl;
+                            continue;
+                        }
+                        system("cls");
+                        if (pilihanVerify == 1)
+                        {      
+                            if (verifyOrder(id, "accepted"))
+                            {
+                                cout << "Pesanan berhasil diverifikasi!" << endl;
+                            }
+                            else
+                            {
+                                cout << "Pesanan gagal diverifikasi!" << endl;
+                            }
+                            break;
+                        }
+                        else if (pilihanVerify == 2)
+                        {
+                            if (verifyOrder(id, "rejected"))
+                            {
+                                cout << "Pesanan berhasil ditolak!" << endl;
+                            }
+                            else
+                            {
+                                cout << "Pesanan gagal ditolak!" << endl;
+                            }
+                            break;
+                        }
+                        else if (pilihanVerify == 0)
+                        {
+                            system("cls");
+                        }
+                        else
+                        {
+                            system("cls");
+                            cout << "Input tidak valid!"<< endl;
+                        }
+                    }
+
+                }
+                else
+                {   
+                    system("cls");
+                    cout << "Pesanan dengan ID " << id << " tidak ditemukan!" << endl;
+                }
+            }
+            else
+            {
+                cout << "Tidak ada pesanan untuk ditampilkan!" << endl;
+            }
+
         }
         else if (pilihan == 4)
         {

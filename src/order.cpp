@@ -1,4 +1,5 @@
 #include "../header/order.h"
+#include "../header/product.h"
 
 string directoryOrder = "data/orders.json";
 
@@ -122,8 +123,8 @@ bool AddOrder(Order &order){
             cerr << "Gagal membuka file untuk menyimpan data!" << endl;
             return false;
         } 
-    }catch(const std::exception& e){
-        std::cerr << e.what() << '\n';
+    }catch(const exception& e){
+        cerr << e.what() << '\n';
     }
     
     return true;
@@ -142,4 +143,58 @@ vector<Order> getOrdersByUserId(int user_id) {
     return userOrders;
 }
 
-// bool ConfirmOrder(int id, string status){}
+bool verifyOrder(int id, string status){
+    try
+    {
+        Order order = getOrder(id);
+    
+        if(status == "rejected"){
+            vector<Product> products = getAllProducts();
+            for (const auto &product : order.products) {
+                for (auto &prod : products) {
+                    if (prod.id == product.product_id) {
+                        prod.stock += product.quantity;
+                        EditProduct(prod.id, prod);
+                    }
+                }
+            }
+        }
+
+        ifstream file(directoryOrder);
+        json data;
+        if (file.is_open()) {
+            file >> data;
+            file.close();
+        } else {
+            system("cls");
+            cout << "Gagal membuka file!" << endl;
+            return false; 
+        }
+
+        for (auto &item : data) {
+            if (item["id"] == id) {
+                item["status"] = status;
+                break;
+            }
+        }
+
+        ofstream outFile(directoryOrder);
+        if (outFile.is_open()) {
+            outFile << data.dump(4);
+            outFile.close();
+            return true;
+        } else {
+            system("cls");
+            cerr << "Gagal membuka file untuk menyimpan data!" << endl;
+            return false;
+        }
+
+    }
+    catch(const exception& e)
+    {
+        cerr << e.what() << '\n';
+    }
+    
+
+    
+}

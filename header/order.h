@@ -37,6 +37,6 @@ vector<Order> getAllOrders();
 Order getOrder(int &id);
 bool AddOrder(Order &order);
 vector<Order> getOrdersByUserId(int user_id);
-
+bool verifyOrder(int id, string status);
 
 #endif
