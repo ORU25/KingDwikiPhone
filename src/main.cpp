@@ -204,8 +204,6 @@ void AdminMenu(User &user)
         }
         else if (pilihan == 0)
         {
-            bool login_attempt = 3;
-            bool isLogin = false;
             cout << "Logout" << endl;
         }
         else
@@ -320,8 +318,6 @@ void UserMenu(User &user)
         }
         else if (pilihan == 0)
         {
-            bool login_attempt = 3;
-            bool isLogin = false;
             cout << "Logout" << endl;
         }
         else
