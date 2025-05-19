@@ -4,14 +4,14 @@
         "id": 1,
         "name": "iPhone 15 Pro Max",
         "price": 23000000,
-        "stock": 6
+        "stock": 7
     },
     {
         "brand": "Samsung",
         "id": 2,
         "name": "Galaxy S24 Ultra",
         "price": 20000000,
-        "stock": 10
+        "stock": 6
     },
     {
         "brand": "Xiaomi",
