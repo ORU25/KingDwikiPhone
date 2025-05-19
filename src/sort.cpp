@@ -1,4 +1,5 @@
 #include "../header/sort.h"
+#include <algorithm>
 
 // Quick Sort untuk User berdasarkan username (ascending)
 void quickSortUsers(vector<User> &users, int low, int high)
@@ -24,17 +25,17 @@ void quickSortUsers(vector<User> &users, int low, int high)
     }
 }
 
-// Quick Sort untuk Product berdasarkan price (descending)
+// Quick Sort untuk Product berdasarkan name (ascending)
 void quickSortProducts(vector<Product> &products, int low, int high)
 {
     if (low < high)
     {
-        int pivot = products[high].price;
+        string pivot = products[high].name;
         int i = low - 1;
 
         for (int j = low; j < high; j++)
         {
-            if (products[j].price >= pivot)
+            if (products[j].name <= pivot)
             {
                 i++;
                 swap(products[i], products[j]);
