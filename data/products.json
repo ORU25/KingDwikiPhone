@@ -68,5 +68,12 @@
         "name": "Tecno Phantom V Flip",
         "price": 8000000,
         "stock": 5
+    },
+    {
+        "brand": "apel",
+        "id": 13,
+        "name": "ipong",
+        "price": 100000,
+        "stock": 1
     }
 ]

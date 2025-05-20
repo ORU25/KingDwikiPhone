@@ -106,5 +106,47 @@
         "status": "pending",
         "total_price": 116000000,
         "user_id": 3
+    },
+    {
+        "id": 7,
+        "products": [
+            {
+                "name": "ipong",
+                "price": 100000,
+                "product_id": 13,
+                "quantity": 2
+            }
+        ],
+        "status": "rejected",
+        "total_price": 200000,
+        "user_id": 1
+    },
+    {
+        "id": 8,
+        "products": [
+            {
+                "name": "ipong",
+                "price": 100000,
+                "product_id": 13,
+                "quantity": 1
+            }
+        ],
+        "status": "accepted",
+        "total_price": 100000,
+        "user_id": 1
+    },
+    {
+        "id": 9,
+        "products": [
+            {
+                "name": "ipong",
+                "price": 100000,
+                "product_id": 13,
+                "quantity": 2
+            }
+        ],
+        "status": "pending",
+        "total_price": 200000,
+        "user_id": 4
     }
 ]

@@ -16,5 +16,17 @@
         "password": "1234",
         "role": "user",
         "username": "haykal"
+    },
+    {
+        "id": 4,
+        "password": "rakus",
+        "role": "user",
+        "username": "palembang"
+    },
+    {
+        "id": 5,
+        "password": "hitam",
+        "role": "niga",
+        "username": "jawa"
     }
 ]
