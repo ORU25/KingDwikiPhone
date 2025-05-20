@@ -22,11 +22,5 @@
         "password": "rakus",
         "role": "user",
         "username": "palembang"
-    },
-    {
-        "id": 5,
-        "password": "hitam",
-        "role": "niga",
-        "username": "jawa"
     }
 ]
