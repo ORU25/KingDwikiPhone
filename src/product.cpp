@@ -64,8 +64,15 @@ Product getProduct(int &id){
 }
 
 bool AddProduct(Product &product) {
-    vector<Product> products = getAllProducts();
+    
     try{
+        if(product.name.empty() || product.brand.empty() || product.stock < 0 || product.price < 0) {
+            system("cls");
+            cerr << "Semua field harus diisi!" << endl;
+            return false;
+        }
+
+        vector<Product> products = getAllProducts();
         ifstream file(directoryProduct);
         json data;
         if (file.is_open()) {
@@ -105,49 +112,66 @@ bool AddProduct(Product &product) {
 }
 
 bool EditProduct(int id, Product editedProduct){
-    vector<Product> products = getAllProducts();
-    bool found = false;
+    try{
 
-    for(auto &item : products){
-        if(item.id == id){
-            item.id = id;
-            item.name = editedProduct.name;
-            item.brand = editedProduct.brand;
-            item.stock = editedProduct.stock;
-            item.price = editedProduct.price;
-            found = true;
-            break;
+
+        vector<Product> products = getAllProducts();
+        bool found = false;
+        
+        for(auto &item : products){
+            if(item.id == id){
+                item.id = id;
+                if(!editedProduct.name.empty()) {
+                    item.name = editedProduct.name;
+                }
+                if(!editedProduct.brand.empty()) {
+                    item.brand = editedProduct.brand;
+                }
+                if(!editedProduct.stock == -1) {
+                    item.stock = editedProduct.stock;
+                }
+                if(!editedProduct.price == -1) {
+                    item.price = editedProduct.price;
+                }
+                found = true;
+                break;
+            }
+        }
+    
+        if (!found) {
+            system("cls");
+            cerr << "Product dengan ID " << id << " tidak ditemukan!" << endl;
+            return false;
+        }
+    
+        json data = json::array();
+        for (const auto &product : products) {
+            json productJson;
+            productJson["id"] = product.id;
+            productJson["name"] = product.name;
+            productJson["brand"] = product.brand;
+            productJson["stock"] = product.stock;
+            productJson["price"] = product.price;
+    
+            data.push_back(productJson);
+        }
+    
+        ofstream outFile(directoryProduct);
+        if (outFile.is_open()) {
+            outFile << data.dump(4);
+            outFile.close();
+            return true;
+        } else {
+            system("cls");
+            cerr << "Gagal menyimpan perubahan ke file!" << endl;
+            return false;
         }
     }
-
-    if (!found) {
-        system("cls");
-        cerr << "Product dengan ID " << id << " tidak ditemukan!" << endl;
-        return false;
+    catch(const exception& e)
+    {
+        cerr << e.what() << '\n';
     }
-
-    json data = json::array();
-    for (const auto &product : products) {
-        json productJson;
-        productJson["id"] = product.id;
-        productJson["name"] = product.name;
-        productJson["brand"] = product.brand;
-        productJson["stock"] = product.stock;
-        productJson["price"] = product.price;
-
-        data.push_back(productJson);
-    }
-
-    ofstream outFile(directoryProduct);
-    if (outFile.is_open()) {
-        outFile << data.dump(4);
-        outFile.close();
-        return true;
-    } else {
-        system("cls");
-        cerr << "Gagal menyimpan perubahan ke file!" << endl;
-        return false;
-    }
+    
 }
 
 bool DeleteProduct(int id){

@@ -63,8 +63,30 @@ User getUser(int &id){
 
 
 bool AddUser(User &user) {
-    vector<User> users = getAllUsers();
     try{
+
+        if (user.username.empty() || user.password.empty() || user.role.empty()) {
+            system("cls");
+            cerr << "Semua field harus diisi!" << endl;
+            return false;
+        }
+
+        vector<User> users = getAllUsers();
+
+        for(const auto &existingUser : users) {
+            if (existingUser.username == user.username) {
+                system("cls");
+                cerr << "Username sudah terdaftar! Silakan gunakan username lain." << endl;
+                return false;
+            }
+        }
+
+        if(user.role != "admin" && user.role != "user") {
+            system("cls");
+            cerr << "Role tidak valid! Harus 'admin' atau 'user'." << endl;
+            return false;
+        }
+
         ifstream file(directoryUser);
         json data;
         if (file.is_open()) {
@@ -105,24 +127,30 @@ bool AddUser(User &user) {
 
 bool EditUser(int id, User editedUser){
     vector<User> users = getAllUsers();
-    bool found = false;
+
+    if(editedUser.role != "admin" && editedUser.role != "user" && !editedUser.role.empty()) {
+        system("cls");
+        cerr << "Role tidak valid! Harus 'admin' atau 'user'." << endl;
+        return false;
+    }
 
     for(auto &item : users){
         if(item.id == id){
             item.id = id;
-            item.username = editedUser.username;
-            item.password = editedUser.password;
-            item.role = editedUser.role;
-            found = true;
+            if(!editedUser.username.empty()){
+                item.username = editedUser.username;
+            }
+            if(!editedUser.password.empty()){
+                item.password = editedUser.password;
+            }
+            if(!editedUser.role.empty()){
+                item.role = editedUser.role;
+            }
             break;
         }
     }
 
-    if (!found) {
-        system("cls");
-        cerr << "User dengan ID " << id << " tidak ditemukan!" << endl;
-        return false;
-    }
+
 
     json data = json::array();
     for (const auto &user : users) {

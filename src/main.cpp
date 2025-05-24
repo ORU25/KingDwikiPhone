@@ -54,11 +54,12 @@ int main(){
             bool loginSuccess = false;
 
             while (login_attempt > 0 && !loginSuccess) {
+                cin.ignore();
                 cout << "Username: ";
-                cin >> username;
+                getline(cin, username);
                 cout << "Password: ";
-                cin >> password;
-
+                getline(cin, password);
+                
                 vector<User> users = getAllUsers();
                 for (const auto &currentUser : users) {
                     if (currentUser.username == username && currentUser.password == password) {
@@ -305,13 +306,15 @@ void CrudUser(User &user) {
 
         if (pilihan == 1) {
             try {
+                cin.ignore();
                 User newUser;
                 cout << "Username: ";
-                cin >> newUser.username;
+                getline(cin, newUser.username);
                 cout << "Password: ";
-                cin >> newUser.password;
+                getline(cin, newUser.password);
                 cout << "Role: ";
                 cin >> newUser.role;
+
                 if (AddUser(newUser)) {
                     system("cls");
                     cout << "User berhasil ditambahkan!" << endl;
@@ -346,22 +349,30 @@ void CrudUser(User &user) {
                 continue;
             }
 
-            try {
-                cout << "Username: ";
-                cin >> editedUser.username;
-                cout << "Password: ";
-                cin >> editedUser.password;
-                cout << "Role: ";
-                cin >> editedUser.role;
-                
-                // Validasi role
-                if (editedUser.role != "admin" && editedUser.role != "user")
-                {
-                    system("cls");
-                    cout << "Role tidak valid! Harus 'admin' atau 'user'." << endl;
-                    continue;
-                }
+            bool userFound = false;
 
+            for(auto &item : users) {
+                if(item.id == id) {
+                    userFound = true;
+                }
+            }
+
+            if(!userFound) {
+                system("cls");
+                cout << "User dengan ID " << id << " tidak ditemukan!" << endl;
+                continue;
+            }
+
+            try {
+                cin.ignore();
+                cout << "*kosongkan untuk tidak mengubah*" << endl;
+                cout << "Username: ";
+                getline(cin, editedUser.username);
+                cout << "Password: ";
+                getline(cin, editedUser.password);
+                cout << "Role: ";
+                getline(cin, editedUser.role);
+                
                 if (EditUser(id, editedUser)) {
                     system("cls");
                     cout << "User Berhasil diubah!" << endl;
@@ -453,15 +464,17 @@ void CrudProduct() {
 
         if (pilihan == 1) {
             try {
+                cin.ignore();
                 Product product;
                 cout << "Name: ";
-                cin >> product.name;
+                getline(cin, product.name);
                 cout << "Brand: ";
-                cin >> product.brand;
+                getline(cin, product.brand);
                 cout << "Stock: ";
                 cin >> product.stock;
                 cout << "Price: ";
                 cin >> product.price;
+                
                 if (AddProduct(product)) {
                     system("cls");
                     cout << "Product berhasil ditambahkan!" << endl;
@@ -490,15 +503,40 @@ void CrudProduct() {
             cout << "\nMasukkan ID product: ";
             cin >> id;
 
+            bool productFound = false;
+
+            for (const auto &product : products) {
+                if (product.id == id) {
+                    editedProduct = product;
+                    productFound = true;
+                    break;
+                }
+            }
+            if (!productFound) {
+                system("cls");
+                cout << "Product dengan ID " << id << " tidak ditemukan!" << endl;
+                continue;
+            }
+
             try {
+                cin.ignore();
+                cout << "*kosongkan untuk tidak mengubah*" << endl;
                 cout << "Name: ";
-                cin >> editedProduct.name;
+                getline(cin, editedProduct.name);
                 cout << "Brand: ";
-                cin >> editedProduct.brand;
+                getline(cin, editedProduct.brand);
+                cout << "*Jika stock dan harga tidak diubah, masukkan -1 untuk tidak mengubahnya.*" << endl;
                 cout << "Stock: ";
                 cin >> editedProduct.stock;
                 cout << "Price: ";
                 cin >> editedProduct.price;
+                
+                if(editedProduct.stock < -1 || editedProduct.price < -1) {
+                    system("cls");
+                    cout << "Stock dan harga tidak boleh negatif!" << endl;
+                    continue;
+                }
+
                 if (EditProduct(id, editedProduct)) {
                     system("cls");
                     cout << "Product Berhasil diubah!" << endl;

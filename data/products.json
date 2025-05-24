@@ -4,7 +4,7 @@
         "id": 1,
         "name": "iPhone 15 Pro Max",
         "price": 23000000,
-        "stock": 7
+        "stock": 6
     },
     {
         "brand": "Samsung",
@@ -65,7 +65,7 @@
     {
         "brand": "Tecno",
         "id": 10,
-        "name": "Tecno Phantom V Flip",
+        "name": "Techno Phantom V Flip",
         "price": 8000000,
         "stock": 5
     }
