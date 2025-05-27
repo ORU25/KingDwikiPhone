@@ -465,8 +465,23 @@ void CrudProduct() {
                 getline(cin, product.brand);
                 cout << "Stock: ";
                 cin >> product.stock;
+                if(cin.fail() || product.stock < 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    system("cls");
+                    cout << "Input tidak valid! Stock harus angka positif.\n" << endl;
+                    continue;
+                }
+                
                 cout << "Price: ";
                 cin >> product.price;
+                if(cin.fail() || product.price < 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    system("cls");
+                    cout << "Input tidak valid! Price harus angka positif.\n" << endl;
+                    continue;
+                }
                 
                 if (AddProduct(product)) {
                     system("cls");
