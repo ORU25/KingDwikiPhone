@@ -18,6 +18,7 @@ void CrudUser(User &user);
 void CrudProduct();
 void CrudOrder(User &user);
 void CreateOrder(User &user);
+void LaporanPenjualan();
 
 int main() {
     system("cls");
@@ -147,6 +148,7 @@ void AdminMenu(User &user) {
         cout << "1. Kelola user" << endl;
         cout << "2. Kelola produk" << endl;
         cout << "3. Kelola pesanan" << endl;
+        cout << "4. Laporan penjualan" << endl;
         cout << "0. Logout" << endl;
         cout << "Pilih opsi: ";
 
@@ -169,6 +171,8 @@ void AdminMenu(User &user) {
             CrudProduct();
         } else if (pilihan == 3) {
             CrudOrder(user);
+        } else if (pilihan == 4) {
+            LaporanPenjualan();
         } else if (pilihan == 0) {
             cout << "Logout" << endl;
         } else {
@@ -951,4 +955,63 @@ void CreateOrder(User &user) {
             }
         }
     }
+}
+
+void LaporanPenjualan(){
+    
+    int totalOrders = 0;
+    int totalRejected = 0;
+    int totalAccepted = 0;
+    int totalSales = 0;
+
+    vector<Order> orders = getAllOrders();
+
+    if (orders.empty()) {
+        cout << "Tidak ada data penjualan untuk ditampilkan!" << endl;
+        return;
+    }
+
+    map<int, pair<string, int>> soldProducts; // key: product_id, value: pair<name, total_quantity>
+
+    for (const auto &order : orders) {
+        totalOrders++;
+        if (order.status == "accepted") {
+            totalAccepted++;
+            totalSales += order.total_price;
+            for (const auto &product : order.products) {
+                if (soldProducts.count(product.product_id)) {
+                    // sudah ada, tambahkan jumlah
+                    soldProducts[product.product_id].second += product.quantity;
+                } else {
+                    // belum ada, masukkan data pertama kali
+                    soldProducts[product.product_id] = {product.name, product.quantity};
+                }
+            }
+        }
+        else if (order.status == "rejected") {
+            totalRejected++;
+        }
+    }
+    cout << string(55, '=') << endl;
+    cout << "Laporan Penjualan:" << endl;
+    cout << string(55, '=') << endl;
+    cout << left << setw(25) << "Total Pesanan" << ": " << totalOrders << endl;
+    cout << left << setw(25) << "Total Pesanan Diterima" << ": " << totalAccepted << endl;
+    cout << left << setw(25) << "Total Pesanan Ditolak" << ": " << totalRejected << endl;
+    cout << left << setw(25) << "Total Penjualan" << ": Rp " << totalSales << endl << endl;
+    cout << string(55, '=') << endl;
+    cout << "Detail Barang:\n";
+    cout << string(55, '=') << endl;
+    cout << left << setw(10) << "ID" 
+         << left << setw(30) << "Nama Produk" 
+         << left << setw(15) << "Jumlah Terjual" 
+         << endl;
+    cout << string(55, '=') << endl;
+    for (const auto &item : soldProducts) {
+        cout << left << setw(10) << item.first 
+             << left << setw(30) << item.second.first 
+             << left << setw(15) << item.second.second 
+             << endl;
+    }
+    cout << string(55, '=') << endl << endl;
 }

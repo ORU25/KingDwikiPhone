@@ -195,6 +195,4 @@ bool verifyOrder(int id, string status){
         cerr << e.what() << '\n';
     }
     
-
-    
 }
