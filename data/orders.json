@@ -140,5 +140,19 @@
         "status": "accepted",
         "total_price": 23000000,
         "user_id": 2
+    },
+    {
+        "id": 9,
+        "products": [
+            {
+                "name": "Xiaomi 14 Ultra",
+                "price": 15000000,
+                "product_id": 3,
+                "quantity": 3
+            }
+        ],
+        "status": "pending",
+        "total_price": 45000000,
+        "user_id": 6
     }
 ]
