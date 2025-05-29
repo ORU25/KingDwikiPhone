@@ -386,7 +386,7 @@ void CrudUser(User &user)
             system("cls");
             cout << "Input tidak valid! Harus angka.\n"
                  << endl;
-            pilihan == -1;
+            pilihan = -1;
             continue;
         }
 
@@ -618,7 +618,7 @@ void CrudProduct()
             system("cls");
             cout << "Input tidak valid! Harus angka.\n"
                  << endl;
-            pilihan == -1;
+            pilihan = -1;
             continue;
         }
 
@@ -793,8 +793,9 @@ void CrudProduct()
             cout << "|                         Cari Produk                          |" << endl;
             cout << "+--------------------------------------------------------------+" << endl;
             string name;
+            cin.ignore();
             cout << "Masukkan nama produk: ";
-            cin >> name;
+            getline(cin, name);
             Product result;
             vector<Product> products = getAllProducts();
             if (!products.empty())
