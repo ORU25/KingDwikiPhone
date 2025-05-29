@@ -1374,5 +1374,5 @@ void LaporanPenjualan()
              << endl;
     }
     cout << string(55, '=') << endl
-         << endl;
+         << ;
 }
