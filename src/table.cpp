@@ -57,6 +57,7 @@ void displayProductTable(const vector<Product> &products)
     const int priceWidth = 10;
 
     // Header tabel
+
     cout << "+" << string(idWidth, '-') << "+" << string(nameWidth, '-') << "+"
          << string(brandWidth, '-') << "+" << string(stockWidth, '-') << "+"
          << string(priceWidth, '-') << "+" << endl;

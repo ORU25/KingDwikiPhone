@@ -1,20 +1,38 @@
 [
-  {
-    "id": 1,
-    "password": "dwiki",
-    "role": "admin",
-    "username": "dwiki"
-  },
-  {
-    "id": 2,
-    "password": "userbaru",
-    "role": "user",
-    "username": "userbaru"
-  },
-  {
-    "id": 3,
-    "password": "1234",
-    "role": "user",
-    "username": "haykal"
-  }
+    {
+        "id": 1,
+        "password": "dwiki",
+        "role": "admin",
+        "username": "dwiki"
+    },
+    {
+        "id": 2,
+        "password": "userbaru",
+        "role": "user",
+        "username": "userbaru"
+    },
+    {
+        "id": 3,
+        "password": "1234",
+        "role": "user",
+        "username": "haykal"
+    },
+    {
+        "id": 4,
+        "password": "jawajawa",
+        "role": "user",
+        "username": "intana"
+    },
+    {
+        "id": 5,
+        "password": "123",
+        "role": "admin",
+        "username": "jawa"
+    },
+    {
+        "id": 6,
+        "password": "jawa",
+        "role": "admin",
+        "username": "jedan"
+    }
 ]
