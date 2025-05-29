@@ -276,7 +276,8 @@ void UserMenu(User &user)
         }
         else if (pilihan == 2)
         {
-            cout << "Lihat history pesanan" << endl;
+            cout << "+---------------------------------------------+" << endl;
+            cout << "|               Histori Pesanan               |" << endl;
             vector<Order> userOrders = getOrdersByUserId(user.id);
             if (!userOrders.empty())
             {
@@ -385,6 +386,7 @@ void CrudUser(User &user)
             system("cls");
             cout << "Input tidak valid! Harus angka.\n"
                  << endl;
+            pilihan == -1;
             continue;
         }
 
@@ -397,13 +399,12 @@ void CrudUser(User &user)
                 cout << "=======================================" << endl;
                 cout << "|             Tambah User             |" << endl;
                 cout << "=======================================" << endl;
-                cout << "Username: ";                                          
-                getline(cin, newUser.username);                
-                cout << "Password: ";                          
-                getline(cin, newUser.password);                
-                cout << "Role(admin/user): ";                  
-                cin >> newUser.role;                           
-                
+                cout << "Username: ";
+                getline(cin, newUser.username);
+                cout << "Password: ";
+                getline(cin, newUser.password);
+                cout << "Role(admin/user): ";
+                cin >> newUser.role;
 
                 if (AddUser(newUser))
                 {
@@ -421,6 +422,8 @@ void CrudUser(User &user)
             vector<User> users = getAllUsers();
             if (!users.empty())
             {
+                cout << "+------------------------------------------------+" << endl;
+                cout << "|                   Daftar User                  |" << endl;
                 displayUserTable(users);
             }
             else
@@ -436,6 +439,8 @@ void CrudUser(User &user)
 
             if (!users.empty())
             {
+                cout << "+------------------------------------------------+" << endl;
+                cout << "|                    Ubah User                   |" << endl;
                 displayUserTable(users);
             }
             else
@@ -443,9 +448,6 @@ void CrudUser(User &user)
                 cout << "Tidak ada user untuk ditampilkan!" << endl;
             }
 
-            cout << "=======================================" << endl;
-            cout << "|              Ubah User              |" << endl;
-            cout << "=======================================" << endl;
             cout << "\nMasukkan ID user: ";
             cin >> id;
 
@@ -502,6 +504,8 @@ void CrudUser(User &user)
 
             if (!users.empty())
             {
+                cout << "+------------------------------------------------+" << endl;
+                cout << "|                   Hapus User                   |" << endl;
                 displayUserTable(users);
             }
             else
@@ -509,9 +513,6 @@ void CrudUser(User &user)
                 cout << "Tidak ada user untuk ditampilkan!" << endl;
             }
 
-            cout << "========================================" << endl;
-            cout << "|              Hapus User              |" << endl;
-            cout << "========================================" << endl;
             cout << "\nMasukkan ID user: ";
             cin >> id;
 
@@ -562,9 +563,9 @@ void CrudUser(User &user)
             vector<User> users = getAllUsers();
             if (!users.empty())
             {
-            cout << "==================================================" << endl;
-            cout << "|                  Sorting User                  |" << endl;
-            cout << "==================================================" << endl;
+                cout << "==================================================" << endl;
+                cout << "|                  Sorting User                  |" << endl;
+                cout << "==================================================" << endl;
                 cout << "Sebelum sorting:\n";
                 displayUserTable(users);
                 quickSortUsers(users, 0, users.size() - 1);
@@ -617,6 +618,7 @@ void CrudProduct()
             system("cls");
             cout << "Input tidak valid! Harus angka.\n"
                  << endl;
+            pilihan == -1;
             continue;
         }
 
@@ -626,9 +628,9 @@ void CrudProduct()
             {
                 cin.ignore();
                 Product product;
-            cout << "========================================" << endl;
-            cout << "|             Tambah Produk            |" << endl;
-            cout << "========================================" << endl;
+                cout << "========================================" << endl;
+                cout << "|             Tambah Produk            |" << endl;
+                cout << "========================================" << endl;
                 cout << "Name: ";
                 getline(cin, product.name);
                 cout << "Brand: ";
@@ -673,8 +675,8 @@ void CrudProduct()
             vector<Product> products = getAllProducts();
             if (!products.empty())
             {
-            cout << "+-----+--------------------+---------------+--------+----------+" << endl;
-            cout << "|                        Daftar Produk                         |" << endl;
+                cout << "+--------------------------------------------------------------+" << endl;
+                cout << "|                        Daftar Produk                         |" << endl;
                 displayProductTable(products);
             }
             else
@@ -690,7 +692,7 @@ void CrudProduct()
 
             if (!products.empty())
             {
-                cout << "+-----+--------------------+---------------+--------+----------+" << endl;
+                cout << "+--------------------------------------------------------------+" << endl;
                 cout << "|                         Ubah Produk                          |" << endl;
                 displayProductTable(products);
             }
@@ -699,7 +701,6 @@ void CrudProduct()
                 cout << "Tidak ada produk untuk ditampilkan!" << endl;
             }
 
-        
             cout << "\nMasukkan ID product: ";
             cin >> id;
 
@@ -724,7 +725,7 @@ void CrudProduct()
             try
             {
                 cin.ignore();
-                
+
                 cout << "*kosongkan untuk tidak mengubah*" << endl;
                 cout << "Name: ";
                 getline(cin, editedProduct.name);
@@ -761,6 +762,8 @@ void CrudProduct()
 
             if (!products.empty())
             {
+                cout << "+--------------------------------------------------------------+" << endl;
+                cout << "|                        Hapus Produk                          |" << endl;
                 displayProductTable(products);
             }
             else
@@ -786,6 +789,9 @@ void CrudProduct()
         }
         else if (pilihan == 5)
         {
+            cout << "+--------------------------------------------------------------+" << endl;
+            cout << "|                         Cari Produk                          |" << endl;
+            cout << "+--------------------------------------------------------------+" << endl;
             string name;
             cout << "Masukkan nama produk: ";
             cin >> name;
@@ -815,6 +821,9 @@ void CrudProduct()
             vector<Product> products = getAllProducts();
             if (!products.empty())
             {
+                cout << "+--------------------------------------------------------------+" << endl;
+                cout << "|                        Urutkan Produk                        |" << endl;
+                cout << "+--------------------------------------------------------------+" << endl;
                 cout << "Sebelum sorting:\n";
                 displayProductTable(products);
                 quickSortProducts(products, 0, products.size() - 1);
@@ -866,6 +875,7 @@ void CrudOrder(User &user)
             system("cls");
             cout << "Input tidak valid! Harus angka.\n"
                  << endl;
+            pilihan = -1;
             continue;
         }
 
@@ -878,6 +888,8 @@ void CrudOrder(User &user)
             vector<Order> orders = getAllOrders();
             if (!orders.empty())
             {
+                cout << "+---------------------------------------------+" << endl;
+                cout << "|                Daftar Pesanan               |" << endl;
                 displayOrderTable(orders);
                 while (true)
                 {
@@ -956,6 +968,8 @@ void CrudOrder(User &user)
                         pendingOrders.push_back(order);
                     }
                 }
+                cout << "+---------------------------------------------+" << endl;
+                cout << "|              Verifikasi Pesanan             |" << endl;
                 displayOrderTable(pendingOrders);
                 cout << "\nMasukkan ID pesanan yang ingin diverifikasi: ";
                 int id;
@@ -1058,6 +1072,9 @@ void CrudOrder(User &user)
         }
         else if (pilihan == 4)
         {
+            cout << "+---------------------------------------------+" << endl;
+            cout << "|                 Cari Pesanan                |" << endl;
+            cout << "+---------------------------------------------+" << endl;
             int id;
             cout << "Masukkan ID pesanan: ";
             cin >> id;
@@ -1097,6 +1114,9 @@ void CrudOrder(User &user)
             vector<Order> orders = getAllOrders();
             if (!orders.empty())
             {
+                cout << "+---------------------------------------------+" << endl;
+                cout << "|               Urutkan Pesanan               |" << endl;
+                cout << "+---------------------------------------------+" << endl;
                 cout << "Sebelum sorting:\n";
                 displayOrderTable(orders);
                 quickSortOrders(orders, 0, orders.size() - 1);
@@ -1131,7 +1151,8 @@ void CreateOrder(User &user)
 
     while (pesan)
     {
-        cout << "\nDaftar Produk:\n";
+        cout << "+--------------------------------------------------------------+" << endl;
+        cout << "|                        Tambah Pesanan                        |" << endl;
         if (!products.empty())
         {
             displayProductTable(products);
@@ -1328,17 +1349,17 @@ void LaporanPenjualan()
             totalRejected++;
         }
     }
-    cout << string(55, '=') << endl;
-    cout << "Laporan Penjualan:" << endl;
-    cout << string(55, '=') << endl;
+    cout << "=======================================================" << endl;
+    cout << "|                  Laporan Penjualan                  |" << endl;
+    cout << "=======================================================" << endl;
     cout << left << setw(25) << "Total Pesanan" << ": " << totalOrders << endl;
     cout << left << setw(25) << "Total Pesanan Diterima" << ": " << totalAccepted << endl;
     cout << left << setw(25) << "Total Pesanan Ditolak" << ": " << totalRejected << endl;
     cout << left << setw(25) << "Total Penjualan" << ": Rp " << totalSales << endl
          << endl;
-    cout << string(55, '=') << endl;
-    cout << "Detail Barang:\n";
-    cout << string(55, '=') << endl;
+    cout << "=======================================================" << endl;
+    cout << "|                    Detail Barang                    |" << endl;
+    cout << "=======================================================" << endl;
     cout << left << setw(10) << "ID"
          << left << setw(30) << "Nama Produk"
          << left << setw(15) << "Jumlah Terjual"
