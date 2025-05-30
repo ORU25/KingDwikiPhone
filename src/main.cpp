@@ -1373,5 +1373,5 @@ void LaporanPenjualan()
              << left << setw(15) << item.second.second
              << endl;
     }
-    cout << string(55, '=') << endl;
+    cout << string(55, '=') << endl << endl;
 }
